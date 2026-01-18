@@ -1,7 +1,7 @@
 import express, { Router } from 'express';
 import * as jobSearchController from '../controllers/jobSearchController';
 import * as adminScraperController from '../controllers/adminScraperController';
-import { authenticateToken, requireRole } from '../middleware/auth';
+import { authenticateToken, requireRole } from '../middleware/authEnhanced';
 
 const router = Router();
 

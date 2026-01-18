@@ -9,10 +9,7 @@ export interface IAdminActivityLog extends mongoose.Document {
   resourceId?: mongoose.Types.ObjectId;       // ID of affected resource
   resourceName?: string;                      // Name/identifier of resource (for reference)
   
-  changes?: {
-    before?: Record<string, any>;
-    after?: Record<string, any>;
-  };
+  changes?: Record<string, any>;
   
   // Request metadata
   ipAddress: string;

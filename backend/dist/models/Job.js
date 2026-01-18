@@ -7,25 +7,19 @@ exports.Job = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const { Schema } = mongoose_1.default;
 const JobSchema = new Schema({
-    source: String,
-    companyId: { type: Schema.Types.ObjectId, ref: "Company" },
-    title: { type: String, required: true, index: true },
-    location: String,
-    employmentType: String,
-    description: String,
-    requirements: [String],
-    responsibilities: [String],
-    requiredSkills: [String],
-    preferredSkills: [String],
-    salary: String,
-    ctc: String,
-    applyUrl: String,
-    externalId: { type: String, index: true },
-    rawHtml: String,
-    parsedAt: Date,
-    status: { type: String, default: "draft" },
-    meta: Schema.Types.Mixed,
-    batch: [String],
-    eligibleBatches: [Number],
-}, { timestamps: true });
-exports.Job = mongoose_1.default.model("Job", JobSchema);
+    title: { type: String, required: true },
+    companyId: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
+    location: { type: String, required: true },
+    salary: {
+        min: Number,
+        max: Number,
+        currency: { type: String, default: 'INR' }
+    },
+    requiredSkills: [{ type: String }],
+    experienceRequired: Number,
+    careerGrowth: { type: Number, default: 0 },
+    status: { type: String, enum: ['active', 'inactive', 'expired'], default: 'active' }
+}, {
+    timestamps: true
+});
+exports.Job = mongoose_1.default.model('Job', JobSchema);

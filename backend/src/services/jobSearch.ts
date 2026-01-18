@@ -1,5 +1,5 @@
 import { ScrapedJob } from '../models/ScrapedJob';
-import { Document, FilterQuery } from 'mongoose';
+import mongoose, { Document } from 'mongoose';
 
 export interface IJobFilter {
   careerLevel?: 'intern' | 'fresher' | 'experienced' | 'lead' | 'manager';
@@ -21,8 +21,8 @@ export class JobSearchService {
   /**
    * Build MongoDB filter query
    */
-  private buildFilterQuery(filters: IJobFilter): FilterQuery<any> {
-    const query: FilterQuery<any> = {
+  private buildFilterQuery(filters: IJobFilter): any {
+    const query: any = {
       archived: false,
       expiryDate: { $gt: new Date() } // Only non-expired jobs
     };
@@ -179,7 +179,7 @@ export class JobSearchService {
     limit: number = 20,
     page: number = 1
   ) {
-    const query: FilterQuery<any> = {
+    const query: any = {
       archived: false,
       expiryDate: { $gt: new Date() }
     };

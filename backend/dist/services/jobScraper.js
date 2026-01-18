@@ -50,6 +50,11 @@ class JobScraperService {
         if (!this.apiKey) {
             throw new Error('OPENWEBNINJA_API_KEY not set in environment variables');
         }
+        // Use custom API host if provided
+        const customHost = process.env.API_HOST;
+        if (customHost) {
+            this.apiBaseUrl = `https://${customHost}/v1/jobs`;
+        }
     }
     /**
      * Get current month in YYYY-MM format

@@ -7,15 +7,13 @@ exports.PageView = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const { Schema } = mongoose_1.default;
 const PageViewSchema = new Schema({
-    userId: { type: String, index: true },
-    page: { type: String, required: true, index: true },
-    referrer: String,
+    page: { type: String, required: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    sessionId: { type: String, required: true },
+    timestamp: { type: Date, default: Date.now },
     userAgent: String,
     ipAddress: String,
-    sessionId: String,
-    timestamp: { type: Date, default: Date.now, index: true },
-}, { timestamps: true });
-// Index for efficient querying
-PageViewSchema.index({ timestamp: -1 });
-PageViewSchema.index({ page: 1, timestamp: -1 });
-exports.PageView = mongoose_1.default.model("PageView", PageViewSchema);
+    referrer: String,
+    duration: Number
+});
+exports.PageView = mongoose_1.default.model('PageView', PageViewSchema);

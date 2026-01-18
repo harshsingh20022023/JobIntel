@@ -36,7 +36,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const jobSearchController = __importStar(require("../controllers/jobSearchController"));
 const adminScraperController = __importStar(require("../controllers/adminScraperController"));
-const auth_1 = require("../middleware/auth");
+const authEnhanced_1 = require("../middleware/authEnhanced");
 const router = (0, express_1.Router)();
 // ============================================
 // PUBLIC & USER ROUTES - Job Search
@@ -86,7 +86,7 @@ router.get('/:jobId', jobSearchController.getJobById);
  * Mark job as applied
  * Auth: Required
  */
-router.post('/:jobId/applied', auth_1.authenticateToken, jobSearchController.markJobAsApplied);
+router.post('/:jobId/applied', authEnhanced_1.authenticateToken, jobSearchController.markJobAsApplied);
 // ============================================
 // ADMIN ROUTES - Job Scraping Management
 // ============================================
@@ -96,47 +96,47 @@ router.post('/:jobId/applied', auth_1.authenticateToken, jobSearchController.mar
  * Query params: stats, priority (fresher|primary)
  * Auth: Admin required
  */
-router.get('/admin/scraper/buckets', auth_1.authenticateToken, (0, auth_1.requireRole)('admin'), adminScraperController.getAvailableBuckets);
+router.get('/admin/scraper/buckets', authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'), adminScraperController.getAvailableBuckets);
 /**
  * GET /api/admin/scraper/buckets/:bucketId
  * Get specific bucket details
  * Auth: Admin required
  */
-router.get('/admin/scraper/buckets/:bucketId', auth_1.authenticateToken, (0, auth_1.requireRole)('admin'), adminScraperController.getBucketDetails);
+router.get('/admin/scraper/buckets/:bucketId', authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'), adminScraperController.getBucketDetails);
 /**
  * GET /api/admin/scraper/usage
  * Check API usage limits
  * Auth: Admin required
  */
-router.get('/admin/scraper/usage', auth_1.authenticateToken, (0, auth_1.requireRole)('admin'), adminScraperController.checkAPIUsage);
+router.get('/admin/scraper/usage', authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'), adminScraperController.checkAPIUsage);
 /**
  * POST /api/admin/scraper/buckets/:bucketId
  * Scrape a specific role bucket
  * Auth: Admin required
  */
-router.post('/admin/scraper/buckets/:bucketId', auth_1.authenticateToken, (0, auth_1.requireRole)('admin'), adminScraperController.scrapeBucket);
+router.post('/admin/scraper/buckets/:bucketId', authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'), adminScraperController.scrapeBucket);
 /**
  * POST /api/admin/scraper/fresher-priority
  * Scrape fresher-priority buckets
  * Auth: Admin required
  */
-router.post('/admin/scraper/fresher-priority', auth_1.authenticateToken, (0, auth_1.requireRole)('admin'), adminScraperController.scrapeFresherPriority);
+router.post('/admin/scraper/fresher-priority', authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'), adminScraperController.scrapeFresherPriority);
 /**
  * POST /api/admin/scraper/all-buckets
  * Scrape all buckets
  * Auth: Admin required
  */
-router.post('/admin/scraper/all-buckets', auth_1.authenticateToken, (0, auth_1.requireRole)('admin'), adminScraperController.scrapeAllBuckets);
+router.post('/admin/scraper/all-buckets', authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'), adminScraperController.scrapeAllBuckets);
 /**
  * GET /api/admin/scraper/history
  * Get scraping history and API usage summary
  * Auth: Admin required
  */
-router.get('/admin/scraper/history', auth_1.authenticateToken, (0, auth_1.requireRole)('admin'), adminScraperController.getScrapingHistory);
+router.get('/admin/scraper/history', authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'), adminScraperController.getScrapingHistory);
 /**
  * POST /api/admin/jobs/cleanup
  * Cleanup expired jobs
  * Auth: Admin required
  */
-router.post('/admin/jobs/cleanup', auth_1.authenticateToken, (0, auth_1.requireRole)('admin'), jobSearchController.cleanupExpiredJobs);
+router.post('/admin/jobs/cleanup', authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'), jobSearchController.cleanupExpiredJobs);
 exports.default = router;

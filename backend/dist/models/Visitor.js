@@ -7,17 +7,21 @@ exports.Visitor = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const { Schema } = mongoose_1.default;
 const VisitorSchema = new Schema({
-    sessionId: { type: String, required: true, unique: true, index: true },
-    userId: String,
-    ipAddress: String,
+    sessionId: { type: String, required: true, unique: true },
+    userId: { type: Schema.Types.ObjectId, ref: 'User' },
+    firstVisit: { type: Date, default: Date.now },
+    lastVisit: { type: Date, default: Date.now },
+    visitCount: { type: Number, default: 1 },
+    pagesViewed: [{ type: String }],
     userAgent: String,
-    firstVisit: { type: Date, default: Date.now, index: true },
-    lastVisit: { type: Date, default: Date.now, index: true },
-    pageCount: { type: Number, default: 1 },
-    clickCount: { type: Number, default: 0 },
-    pages: [String],
-}, { timestamps: true });
-// Index for efficient querying
-VisitorSchema.index({ lastVisit: -1 });
-VisitorSchema.index({ firstVisit: -1 });
-exports.Visitor = mongoose_1.default.model("Visitor", VisitorSchema);
+    ipAddress: String,
+    location: {
+        country: String,
+        city: String,
+        region: String
+    },
+    deviceType: { type: String, enum: ['desktop', 'mobile', 'tablet'] },
+    browser: String,
+    referrer: String
+});
+exports.Visitor = mongoose_1.default.model('Visitor', VisitorSchema);

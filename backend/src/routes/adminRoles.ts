@@ -1,5 +1,5 @@
 import express from 'express';
-import { authenticateToken, requireRole } from '../middleware/auth';
+import { authenticateToken, requireRole } from '../middleware/authEnhanced';
 import {
   listAdminRoles,
   getAdminRole,

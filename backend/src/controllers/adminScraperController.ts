@@ -94,7 +94,7 @@ export const scrapeBucket = async (req: Request, res: Response) => {
     }
 
     // Scrape the bucket
-    const result = await scraper.scrapeBucket(bucketId, userId);
+    const result = await scraper.scrapeBucket(bucketId as string, userId);
 
     if (!result.success) {
       return res.status(400).json({

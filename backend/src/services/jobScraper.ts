@@ -31,6 +31,11 @@ export class JobScraperService {
     if (!this.apiKey) {
       throw new Error('OPENWEBNINJA_API_KEY not set in environment variables');
     }
+    // Use custom API host if provided
+    const customHost = process.env.API_HOST;
+    if (customHost) {
+      this.apiBaseUrl = `https://${customHost}/jobs`;
+    }
   }
 
   /**
@@ -169,6 +174,7 @@ export class JobScraperService {
       // Make API call
       const response = await axios.get<IOpenWebNinjaResponse>(this.apiBaseUrl, {
         headers: {
+          'Authorization': `Bearer ${this.apiKey}`,
           'X-API-Key': this.apiKey
         },
         params: {
@@ -178,10 +184,23 @@ export class JobScraperService {
         timeout: 10000
       });
 
+      console.log(`API Response for keyword "${keyword}":`, response.data);
+
       const responseTime = Date.now() - startTime;
-      const jobs = response.data?.data || [];
-      let jobsCreated = 0;
-      let duplicatesFound = 0;
+      // Handle different response formats
+      let jobs: IJobSearchResult[] = [];
+      if (response.data?.data && Array.isArray(response.data.data)) {
+        jobs = response.data.data;
+      } else if (response.data && Array.isArray(response.data)) {
+        jobs = response.data;
+      } else if (response.data?.jobs && Array.isArray(response.data.jobs)) {
+        jobs = response.data.jobs;
+      } else {
+        console.error('Unexpected API response format:', response.data);
+        throw new Error('Unexpected API response format');
+      }
+
+      console.log(`Found ${jobs.length} jobs for keyword "${keyword}"`);
 
       // Process jobs
       for (const jobData of jobs) {
@@ -256,6 +275,8 @@ export class JobScraperService {
     } catch (error) {
       const responseTime = Date.now() - startTime;
       const errorMessage = error instanceof AxiosError ? error.message : String(error);
+      
+      console.error(`Error scraping keyword "${keyword}":`, errorMessage);
 
       // Log failed API call
       await APIUsageLog.create({

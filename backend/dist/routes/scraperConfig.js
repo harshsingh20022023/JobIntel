@@ -4,11 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const auth_1 = require("../middleware/auth");
+const authEnhanced_1 = require("../middleware/authEnhanced");
 const scraperConfigController_1 = require("../controllers/scraperConfigController");
 const router = express_1.default.Router();
 // All routes require admin authentication
-router.use(auth_1.authenticateToken, (0, auth_1.requireRole)('admin'));
+router.use(authEnhanced_1.authenticateToken, (0, authEnhanced_1.requireRole)('admin'));
 // Get current scraper configuration
 router.get('/config', scraperConfigController_1.getScraperConfig);
 // Update full configuration

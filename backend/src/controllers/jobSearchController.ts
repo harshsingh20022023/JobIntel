@@ -109,7 +109,7 @@ export const getJobsByDomain = async (req: Request, res: Response) => {
     const page = parseInt(req.query.page as string) || 1;
     const limit = Math.min(parseInt(req.query.limit as string) || 20, 100);
 
-    const result = await searchService.getJobsByDomain(domain, limit, page);
+    const result = await searchService.getJobsByDomain(domain as string, limit, page);
 
     res.json({
       success: true,
@@ -157,7 +157,7 @@ export const getJobById = async (req: Request, res: Response) => {
   try {
     const { jobId } = req.params;
 
-    const job = await searchService.getJobById(jobId);
+    const job = await searchService.getJobById(jobId as string);
 
     if (!job) {
       return res.status(404).json({
@@ -167,7 +167,7 @@ export const getJobById = async (req: Request, res: Response) => {
     }
 
     // Increment view count
-    await searchService.incrementViewCount(jobId);
+    await searchService.incrementViewCount(jobId as string);
 
     res.json({
       success: true,
@@ -189,7 +189,7 @@ export const markJobAsApplied = async (req: Request, res: Response) => {
   try {
     const { jobId } = req.params;
 
-    await searchService.incrementAppliedCount(jobId);
+    await searchService.incrementAppliedCount(jobId as string);
 
     res.json({
       success: true,

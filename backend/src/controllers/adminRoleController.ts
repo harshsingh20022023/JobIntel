@@ -375,7 +375,7 @@ export async function removePermissionFromRole(req: Request, res: Response) {
       });
     }
 
-    const index = role.permissions.indexOf(permissionCode);
+    const index = role.permissions.indexOf(permissionCode as string);
     if (index === -1) {
       return res.status(400).json({ 
         success: false, 
