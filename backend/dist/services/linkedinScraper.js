@@ -38,11 +38,8 @@ exports.EMPLOYMENT_TYPES = [
     'Internship'
 ];
 class LinkedInScraper {
-    apiKey;
-    apiHost;
-    baseUrl;
-    rateLimitDelay = 1000; // 1 second between requests
     constructor() {
+        this.rateLimitDelay = 1000; // 1 second between requests
         this.apiKey = process.env.API_KEY || '';
         this.apiHost = process.env.API_HOST || 'api.openwebninja.com';
         this.baseUrl = `https://${this.apiHost}`;

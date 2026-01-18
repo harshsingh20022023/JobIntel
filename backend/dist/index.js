@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const debug_1 = __importDefault(require("debug"));
+const path_1 = __importDefault(require("path"));
 const db_1 = require("./config/db");
 const auth_1 = __importDefault(require("./routes/auth"));
 const job_1 = __importDefault(require("./routes/job"));
@@ -145,6 +146,12 @@ app.use('/api/activity', activity_1.default);
 app.use('/api/resume', resume_1.default);
 app.use('/api/scraper', scraper_1.default);
 app.use('/api/recommendations', recommendation_1.default);
+app.use(express_1.default.static(path_1.default.join(__dirname, '../../frontend/dist')));
+// SPA catch-all: serve index.html for all non-API routes
+app.use((req, res, next) => {
+    if (req.path.startsWith('/api')) return next();
+    res.sendFile(path_1.default.join(__dirname, '../../frontend/dist/index.html'));
+});
 const PORT = process.env.PORT || 4000;
 const MONGODB_URI = process.env.MONGODB_URI || "";
 (async () => {

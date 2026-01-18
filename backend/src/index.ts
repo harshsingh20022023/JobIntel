@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import debug from "debug";
+import path from "path";
 import { connectDB } from "./config/db";
 import authRoutes from "./routes/auth";
 import jobRoutes from "./routes/job";
@@ -142,6 +143,14 @@ app.use('/api/activity', activityRoutes);
 app.use('/api/resume', resumeRoutes);
 app.use('/api/scraper', scraperRoutes);
 app.use('/api/recommendations', recommendationRoutes);
+
+app.use(express.static(path.join(__dirname, '../../frontend/dist')));
+
+// SPA catch-all: serve index.html for all non-API routes
+app.use((req, res, next) => {
+  if (req.path.startsWith('/api')) return next();
+  res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
+});
 
 const PORT = process.env.PORT || 4000;
 const MONGODB_URI = process.env.MONGODB_URI || "";

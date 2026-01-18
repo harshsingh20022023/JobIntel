@@ -3,8 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.JobSearchService = void 0;
 const ScrapedJob_1 = require("../models/ScrapedJob");
 class JobSearchService {
-    defaultLimit = 20;
-    defaultPage = 1;
+    constructor() {
+        this.defaultLimit = 20;
+        this.defaultPage = 1;
+    }
     /**
      * Build MongoDB filter query
      */

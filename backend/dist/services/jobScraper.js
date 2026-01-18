@@ -43,10 +43,9 @@ const ScrapedJob_1 = require("../models/ScrapedJob");
 const APIUsageLog_1 = require("../models/APIUsageLog");
 const roleBuckets_1 = require("./roleBuckets");
 class JobScraperService {
-    apiKey;
-    apiBaseUrl = 'https://api.api-ninjas.com/v1/jobs';
-    requestsThisMonth = 0;
     constructor() {
+        this.apiBaseUrl = 'https://api.api-ninjas.com/v1/jobs';
+        this.requestsThisMonth = 0;
         this.apiKey = process.env.OPENWEBNINJA_API_KEY || '';
         if (!this.apiKey) {
             throw new Error('OPENWEBNINJA_API_KEY not set in environment variables');
